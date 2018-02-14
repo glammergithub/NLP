@@ -1,0 +1,16 @@
+Pycharm 快捷键
+ALT+F7替换
+CTRL+N新建一个类
+SHIFT+F6给变量改名字
+SHIFT+ESC隐藏编辑器
+F12还原
+CTRL+W选中单词
+CTRL+/批量注释
+
+
+nltk.download()
+from nltk.book import *
+text1.concordance("monstrous")#搜索文章中的词语
+text3.concordance("lived")
+text1.similar("monstrous")#近义词
+text2.common_contexts(["monstrous","very"])#两个词共同的上下文
