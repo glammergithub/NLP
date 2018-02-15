@@ -14,3 +14,7 @@ text1.concordance("monstrous")#搜索文章中的词语
 text3.concordance("lived")
 text1.similar("monstrous")#近义词
 text2.common_contexts(["monstrous","very"])#两个词共同的上下文
+
+set(text3)#text3中所有标点，单词的集合，去重
+sorted(set(text3))#text3中的所有标点、单词排序之后，去重
+len(set(text3))#text3的独一无二的标点、单词类型个数，称为唯一项目类型
