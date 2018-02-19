@@ -7,6 +7,7 @@ F12还原
 CTRL+W选中单词
 CTRL+/批量注释
 
+from __future__ import division#放在程序开头保证用浮点除法
 
 nltk.download()
 from nltk.book import *
@@ -18,3 +19,8 @@ text2.common_contexts(["monstrous","very"])#两个词共同的上下文
 set(text3)#text3中所有标点，单词的集合，去重
 sorted(set(text3))#text3中的所有标点、单词排序之后，去重
 len(set(text3))#text3的独一无二的标点、单词类型个数，称为唯一项目类型
+
+print(len(text3) / len(set(text3)))#每个字平均被使用的次数
+print(text3.count("smote"))#统计一个词语在一个文本中出现的次数
+print(100 * text4.count('a') / len(text4))#'统计一个词语占全部词语的百分比是多少
+
