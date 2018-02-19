@@ -24,13 +24,15 @@ print(len(text3) / len(set(text3)))#每个字平均被使用的次数
 print(text3.count("smote"))#统计一个词语在一个文本中出现的次数
 print(100 * text4.count('a') / len(text4))#'统计一个词语占全部词语的百分比是多少
 
-a = ['Call','me','Ishmael','.']#方括号内的东西是链表
-print(len(a));#输出链表的长度
-print(lexical_diversity(a));#将链表作为一个文档使用到函数里
-b = ['The','family','of','Dashwood','had','long','been','settled','in','Sussex','.'];
-print(sorted(b))#将链表的内容排序
-print(b.count('.'));#输出链表中某单词的个数
-print(a + b)#将a和b的链表的内容连接起来
-a.append("apple")#向链表中追加一个元素
-print(a)
+函数def关键字定义,lexical_diversity为函数名，text为参数
+def lexical_diversity(text):
+    return len(text) / len(set(text))
+print(lexical_diversity(text3));
+def percentage(count, total):
+    return  100 * count / total
+
+print(a[1])#索引是从0开始的
+print(text4[173]);#找到索引处的元素
+print(text4.index('awaken'));#找到元素第一次出现的索引
+print(text5[16715:16735])#获取链表中任意片段中的元素
 
