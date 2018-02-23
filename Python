@@ -49,4 +49,14 @@ my_sent = ['a','wwe','eee']
 noun = my_sent[0:3]
 print(sorted(noun))#capital is ahead of lowercase
 
+#operation on character string
+a = 'Monty'
+print(a[0])#'M'
+print(a[:4])#'Mont'
+#connect character string
+print(''.join(['Monty','Python','asd']))
+#split two character string
+print('Monty Pytho n'.split())
+
+
 
