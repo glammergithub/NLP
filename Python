@@ -31,8 +31,22 @@ print(lexical_diversity(text3));
 def percentage(count, total):
     return  100 * count / total
 
+a = ['Call','me','Ishmael','.']
 print(a[1])#索引是从0开始的
 print(text4[173]);#找到索引处的元素
 print(text4.index('awaken'));#找到元素第一次出现的索引
 print(text5[16715:16735])#获取链表中任意片段中的元素
+
+sent = ['word1','word2','word3','word4','word5','word6','word7','word8','word9','word10'];
+print(sent[5:8])#sent[m:n] m:n-1 m represents index
+print(sent[:3])#from the first to index 3(exclude index3)
+print(sent[3:])#from index3 to the end
+sent[0] = 'First'#replace 'word1' to 'First'
+sent[1:9] = ['First','Last']#replace index 1~index 9 to the designated two words
+
+#assignment(赋值):variation = expression ,words ahead ,numbers and '_' is permitted
+my_sent = ['a','wwe','eee']
+noun = my_sent[0:3]
+print(sorted(noun))#capital is ahead of lowercase
+
 
