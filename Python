@@ -58,5 +58,13 @@ print(''.join(['Monty','Python','asd']))
 #split two character string
 print('Monty Pytho n'.split())
 
+统计分布
+fdist = FreqDist(text1)
+vocabulary = fdist.keys()
+voc = list(vocabulary)#必须得转换成list才能用
+print(fdist)#print the number of words
+print(voc[:50])#分片前50个
+print(fdist['whale'])#the number of 'whale'
+fdist.plot(50,cumulative = True)#画出图案，需要安装pyqt
 
 
