@@ -7,7 +7,8 @@ F12还原
 CTRL+W选中单词
 CTRL+/批量注释
 http://blog.csdn.net/a359680405/article/details/45074761安装PYQT5
-在python脚本文件，命令行运行
+在python脚本文件，运行Python交互式解释器。
+分块开发程序，在整合它们之前测试每一块代码是否达到你的预期是很重要的。 这也是Python交互式解释器的价值所在，也是为什么你必须适应它的原因
 from __future__ import division#放在程序开头保证用浮点除法
 
 nltk.download()
@@ -90,7 +91,7 @@ print(fdist.freq(3))#输出长度为3的词出现的次数占总词数的比例
 print(fdist.N())#输出样本总数
 fdist.plot()#绘制频率分布图
 fdist.plot(cumulative=True)#绘制累积频率分布图
-
+8.决策
 [w for w in sent7 if len(w) < 4]#输出sent7中长度小于4的元素
 sorted([w for w in set(text1) if w.endswith('ableness')])#输出以ableness结尾的单词并排序
 s.startswith(t) 测试 s 是否以t 开头 
@@ -103,3 +104,47 @@ s.isalpha() 测试 s 中所有字符是否都是字母
 s.isalnum() 测试 s 中所有字符是否都是字母或数字 
 s.isdigit() 测试 s 中所有字符是否都是数字 
 s.istitle() 测试 s 是否首字母大写（s 中所有的词都首字母大写）
+9.控制
+（1）对每个元素进行操作
+[len(w)for w in text1] 
+[w.upper()for w in text1] 
+这些表达式形式为[f(w) for ...]或[w.f() for ...]，其中 f是一个函数，用来计算词长或把字母转换为大写
+
+len(set(word.lower()for word in text1))
+由于我们不重复计算像This和this这样仅仅大小写不同的词，就已经从词汇表计数中抹去了2,000个！
+len(set(word.lower()for word in text1 if word.isalpha()))
+通过过滤掉所有非字母元素，从词汇表中消除数字和标点符号
+
+（2）嵌套代码块
+控制结构：
+1. if len(word) < 5:#（注意冒号）
+     print('word length is less than 5')#注意段首空tab
+...#该行空出来，再下一行输出
+#如果不满足if成立条件，没有输出
+
+2.for word in ['Call','me','Ishmael','.']:
+     print(word)
+...#空一行，下一行输出
+
+3.sent1 = ['Call','me','Ishmael','.']
+for word in sent1:
+     if word.endswith('l'):
+             print(word)
+...
+Call
+Ishmael
+在 if 和for语句所在行末尾——缩进开始之前——有一个冒号
+所有的Python控制结构都以冒号结尾。冒号表示当前语句与后面的缩进块有关联。 
+
+4.for token in sent1:
+...     if token.islower():
+...             print(token,'is a lowercase word')
+...     elif token.istitle():
+...             print(token,'is a titlecase word')
+...     else :
+...             print (token,'is punctuation')
+...
+Call is a titlecase word
+me is a lowercase word
+Ishmael is a titlecase word
+. is punctuation
