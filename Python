@@ -6,7 +6,7 @@ SHIFT+ESC隐藏编辑器
 F12还原
 CTRL+W选中单词
 CTRL+/批量注释
-
+http://blog.csdn.net/a359680405/article/details/45074761安装PYQT5
 from __future__ import division#放在程序开头保证用浮点除法
 
 nltk.download()
