@@ -7,6 +7,7 @@ F12还原
 CTRL+W选中单词
 CTRL+/批量注释
 http://blog.csdn.net/a359680405/article/details/45074761安装PYQT5
+在python脚本文件，命令行运行
 from __future__ import division#放在程序开头保证用浮点除法
 
 nltk.download()
@@ -89,3 +90,16 @@ print(fdist.freq(3))#输出长度为3的词出现的次数占总词数的比例
 print(fdist.N())#输出样本总数
 fdist.plot()#绘制频率分布图
 fdist.plot(cumulative=True)#绘制累积频率分布图
+
+[w for w in sent7 if len(w) < 4]#输出sent7中长度小于4的元素
+sorted([w for w in set(text1) if w.endswith('ableness')])#输出以ableness结尾的单词并排序
+s.startswith(t) 测试 s 是否以t 开头 
+s.endswith(t) 测试 
+s 是否以t 结尾 tin s 
+测试 s 是否包含t s.islower() 
+测试 s 中所有字符是否都是小写字母 
+s.isupper() 测试 s 中所有字符是否都是大写字母 
+s.isalpha() 测试 s 中所有字符是否都是字母 
+s.isalnum() 测试 s 中所有字符是否都是字母或数字 
+s.isdigit() 测试 s 中所有字符是否都是数字 
+s.istitle() 测试 s 是否首字母大写（s 中所有的词都首字母大写）
