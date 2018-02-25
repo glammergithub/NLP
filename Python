@@ -59,6 +59,7 @@ print(''.join(['Monty','Python','asd']))
 print('Monty Pytho n'.split())
 
 统计分布
+1.找出文本中最常见的50个词
 fdist = FreqDist(text1)
 vocabulary = fdist.keys()
 voc = list(vocabulary)#必须得转换成list才能用
@@ -66,5 +67,9 @@ print(fdist)#print the number of words
 print(voc[:50])#分片前50个
 print(fdist['whale'])#the number of 'whale'
 fdist.plot(50,cumulative = True)#画出图案，需要安装pyqt
+2.找出text1中长度超过15个字符的词并排序
+V = set(text1)
+long_words = [w for w in V if len(w) > 15]
+print(sorted(long_words))
 
 
