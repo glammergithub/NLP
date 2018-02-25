@@ -74,4 +74,7 @@ print(sorted(long_words))
 3.找出长度超过7个字符并且出现次数超过7次的词
 fdist5 = FreqDist(text5)
 print(sorted([w for w in set(text5) if len(w) > 7 and fdist5[w] > 7]))
+4.搭配：经常出现的词的序列，词对、双连词：找到在一起出现的两个词
+print(bigrams(['more','is','said','than','done']))#找词对，有问题
+text4.collocations()#找到出现频繁的双连词
 
