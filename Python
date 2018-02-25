@@ -86,4 +86,6 @@ print(fdist.items())#以（a,b)输出a长度的词出现了b次
 print(fdist.max())#输出出现次数最多的长度
 print(fdist[3])#输出长度为3的词出现的次数
 print(fdist.freq(3))#输出长度为3的词出现的次数占总词数的比例
-
+print(fdist.N())#输出样本总数
+fdist.plot()#绘制频率分布图
+fdist.plot(cumulative=True)#绘制累积频率分布图
