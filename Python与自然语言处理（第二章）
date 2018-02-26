@@ -167,3 +167,100 @@ root() 到本地安装的语料库根目录的路径
 >>> len(ptb.sents()) 
 49208
 >>> ptb.sents(fileids='20/wsj_2013.mrg')
+
+
+2.2条件频率分布
+当语料文本被分为几类（文体、主题、作者等）时，我们可以计算每个类别独立的频率分布。这将允许我们研究类别之间的系统性差异。在上一节中，我们是用 NLTK 的Condit ionalFreqDist数据类型实现的。条件频率分布是频率分布的集合，每个频率分布有一个不同的“条件”。这个条件通常是文本的类别。
+一、条件和事件
+频率分布计算观察到的事件，如文本中出现的词汇。条件频率分布需要给每个事件关联一个条件，所以不是处理一个词序列，我们必须处理的是一个配对序列
+>>> pairs = [('news', 'The'), ('news', 'Fulton'), ('news', 'County'), ...]
+每对的形式是：（条件，事件）
+二、按文体计数词汇
+以布朗语料库的每一部分为条件的条件频率分布，并按照每个条件计数词汇。FreqDist()以一个简单的链表作为输入，ConditionalFreqDist()以一个配对链表作为输入
+让我们拆开来看，只看两个文体：新闻和言情。对于每个文体，我们遍历文体中的每个词以产生文体与词的配对
+>>> from nltk.corpus import brown
+>>> genre_word = [(genre,word) for genre in ['news','romance'] for word in brown.words(categories = genre)]
+>>> len(genre_word)
+>>> genre_word[:4]
+>>> genre_word[-4:]
+现在，我们可以使用此配对链表创建一个ConditionalFreqDist，并将它保存在一个变量cfd中。像往常一样，我们可以输入变量的名称来检查它，并确认它有两个条件：
+>>> cfd = nltk.ConditionalFreqDist(genre_word)
+>>> cfd
+>>> cfd.conditions()
+>>> cfd['news']
+>>> cfd['romance']
+>>> list(cfd['romance'])
+>>> cfd['romance']['could']
+三、绘制分布图和分布表
+1.条件是词 america 或 citizen，被绘图的计数是在特定演讲中出现的词的次数。它利用了每个演讲的文件名——例如 1 865-Lincoln.txt——的前4个字符包含年代的事实。这段代码为文件1865-Lincoln.txt 中每个小写形式以america 开头的词——如：Americans——产生一个配对('america', '1865')。 
+>>> from nltk.corpus import inaugural
+>>> cfd = nltk.ConditionalFreqDist(
+...     (target,fileid[:4])
+...     for fileid in inaugural.fileids()
+...     for w in inaugural.words(fileid)
+...     for target in ['america','citizen']
+...     if w.lower().startswith(target)
+... )
+2.条件是语言的名称，图中的计数来源于词长。它利用了每一种语言的文件名是语言名称后面跟'-Latin1' （字符编码）的事实
+>>> from nltk.corpus import udhr
+>>> languages = ['Chickasaw', 'English', 'German_Deutsch',
+...     'Greenlandic_Inuktikut', 'Hungarian_Magyar', 'Ibibio_Efik']
+>>> cfd = nltk.ConditionalFreqDist(
+...     (lang,len(word))
+...     for lang in languages
+...     for word in udhr.words(lang + '-Latin1')
+... )
+>>> cfd.tabulate(conditions = ['English','German_Deursch'],samples = range(10),cumulative = True)
+                  0    1    2    3    4    5    6    7    8    9
+       English    0  185  525  883  997 1166 1283 1440 1558 1638
+German_Deursch    0    0    0    0    0    0    0    0    0    0
+在 plot()和 tabulate()方法中，我们可以使用 conditions= parameter 来选择指定 哪些条件显示。如果我们忽略它，所有条件都会显示。同样，我们可以使用 samples= p arameter 来限制要显示的样本。这使得载入大量数据到一个条件频率分布，然后通过选定 条件和样品，绘图或制表的探索成为可能。这也使我们能全面控制条件和样本的显示顺序。
+
+四、使用双连词生成随机文本
+bigrams()函数接受一个词汇链表，并建立一个连续的词对链表。
+>>> sent =  ['In', 'the', 'beginning', 'God', 'created', 'the', 'heaven',
+...     'and','the','earth','.']
+>>> list(nltk.bigrams(sent)) 
+我们把每个词作为一个条件，对每个词我们有效的创建它的后续词的频率分布
+方法一：
+函数generate_model()包含一个简单的循环来生成文本。当我们调用这个函数时，我们选择一个词（如“living”）作为我们的初始内容。然后，进入循环后，我们输入变量 word 的当前值，重新设置 word 为上下文中最可能的标识符（使用 max()）。下一次进入循环，我们使用那个词作为新的初始内容。正如你通过检查输出可以看到的，这种简单的文本生成方法往往会在循环中卡住。
+>>> def generate_model(cfdist,word,num = 15):
+...     for i in range(num):
+...             print(word),
+...             word = cfdist[word].max()
+...
+>>> text = nltk.corpus.genesis.words('english-kjv.txt')
+>>> bigrams = nltk.bigrams(text)
+>>> cfd = nltk.ConditionalFreqDist(bigrams)
+>>> print(cfd['living'])
+#输出living的词对
+<FreqDist with 6 samples and 16 outcomes>
+>>> generate_model(cfd,'living')
+living
+creature
+that
+he
+said
+,
+and
+the
+land
+of
+the
+land
+of
+the
+land
+living 后最可能出现creature,creature后最可能出现that,以此类推
+五、条件频率分布常用方法
+cfdist= ConditionalFreqDist(pairs) 从配对链表中创建条件频率分布 
+cfdist.conditions() 将条件按字母排序 
+cfdist[condition] 此条件下的频率分布 
+cfdist[condition][sample] 此条件下给定样本的频率 
+cfdist.tabulate() 为条件频率分布制表 
+cfdist.tabulate(samples, conditions) 指定样本和条件限制下制表 
+cfdist.plot() 为条件频率分布绘图 
+cfdist.plot(samples, conditions) 指定样本和条件限制下绘图 
+cfdist1 < cfdist2 测试样本在cfdist1中出现次数是否小于在cfdist2中出现次数
+
+
