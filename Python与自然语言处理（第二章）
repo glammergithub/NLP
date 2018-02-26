@@ -1,0 +1,123 @@
+https://www.cnblogs.com/tq007/p/7281105.html
+一、古腾堡语料库
+1.挑选文本简·奥斯丁的《爱玛》——并给它一个简短的名称 emma，然后找出它包含多少个词： 
+>>> import nltk 
+>>> nltk.corpus.gutenberg.fileids() 
+>>> emma = nltk.corpus.gutenberg.words('austen-emma.txt')
+>>> len(emma)
+或者
+>>> from nltk.corpus import gutenberg 
+>>> gutenberg.fileids() 
+>>> emma = gutenberg.words('austen-emma.txt')
+>>> len(emma) 
+2.找出文本中的索引
+>>> emma = nltk.Text(nltk.corpus.gutenberg.words('austen-emma.txt')) 
+>>>emma.concordance("surprize") 
+3.通过循环遍历前面列出的gutenberg文件标识符链表相应的 fileid，然后计算统计每个文本
+>>> for fileid in gutenberg.fileids():
+...     num_chars = len(gutenberg.raw(fileid))
+...     num_words = len(gutenberg.words(fileid))
+...     num_sents = len(gutenberg.sents(fileid))
+...     num_vocab = len(set([w.lower()for w in gutenberg.words(fileid)]))
+...     print(int(num_chars/num_words),int(num_words/num_sents),int(num_words/num_vocab),fileid)
+...
+这个程序显示每个文本的三个统计量：平均词长、平均句子长度和本文中每个词出现的 平均次数（我们的词汇多样性得分）。平均词长似乎是英语的一个一般属性，因为它的值总是4。（事实上，平均词长是3 而不是4，因为 num_chars变量计数了空白字符。） 相比之下，平均句子长度和词汇多样性看上去是作者个人的特点
+4.sents()函数把文本划分成句子，其中每一个句子是一个词链表。
+>>> macbeth_sentences = gutenberg.sents('shakespeare-macbeth.txt') 
+>>> macbeth_sentences#句子链表
+>>> macbeth_sentences[1037]#第1038个
+>>> longest_len = max([len(s) for s in macbeth_sentences])#求最大的句子长度
+>>> [s for s in macbeth_sentences if len(s) == longest_len]
+二、网络和聊天文本
+虽然古腾堡项目包含成千上万的书籍，它代表既定的文学。考虑较不正式的语言也是 很重要的。NLTK的网络文本小集合的内容包括 Firefox交流论坛，在纽约无意听到的对话，《加勒比海盗》的电影剧本，个人广告和葡萄酒的评论：
+>>> from nltk.corpus import webtext
+>>> for fileid in webtext.fileids():
+...     print(fileid,webtext.raw(fileid)[:65],'...')
+...
+还有一个即时消息聊天会话语料库，最初由美国海军研究生院为研究自动检测互联网幼童虐待癖而收集的。语料库包含超过10,000张帖子，以“UserNNN”形式的通用名替换掉用户名，手工编辑消除任何其他身份信息，制作而成。语料库被分成 15 个文件，每个文件包含几百个按特定日期和特定年龄的聊天室（青少年、20 岁、30 岁、40 岁、再加上一个通用的成年人聊天室）收集的帖子。文件名中包含日期、聊天室和帖子数量，例如：10-1920s_706posts.xml 包含 2006年10月19日从20多岁聊天室收集的 706个帖子。 
+>>> from nltk.corpus import nps_chat
+>>> chatroom = nps_chat.posts('10-19-20s_706posts.xml')
+>>> chatroom
+三、布朗语料库
+布朗语料库是第一个百万词级的英语电子语料库的，由布朗大学于 1961 年创建。这个 语料库包含500 个不同来源的文本，按照文体分类，如：新闻、社论等
+>>> from nltk.corpus import brown
+>>> brown.categories()
+>>> brown.words(categories='news')
+>>> brown.words(fileids = ['cg22'])
+>>> brown.sents(categories = ['new','editorial','reviews'])
+布朗语料库是一个研究文体之间的系统性差异——一种叫做文体学的语言学研究——很方便的资源。让我们来比较不同文体中的情态动词的用法。第一步：产生特定文体的计数。记住做下面的实验之前要import nltk
+>>> news_text = brown.words(categories = 'news')
+>>> fdist = nltk.FreqDist([w.lower()for w in news_text])
+>>> modals = ['can','could','may','might','must','will']
+>>> for m in modals:
+...     print(m + ':',fdist[m])
+...
+举例
+>>> import nltk
+>>> from nltk.corpus import brown
+>>> cfd = nltk.ConditionalFreqDist(
+...     (genre,word)
+...     for genre in brown.categories()
+...     for word in brown.words(categories=genre)
+... )
+>>> genres = ['news','religion','hobbies','science_fiction','romance','humor']
+>>> modals = ['can','could','may','might','must','will']
+>>> cfd.tabulate(conditions = genres,samples = modals)
+                  can could   may might  must  will
+           news    93    86    66    38    50   389
+       religion    82    59    78    12    54    71
+        hobbies   268    58   131    22    83   264
+science_fiction    16    49     4    12     8    16
+        romance    74   193    11    51    45    43
+          humor    16    30     8     8     9    13
+四、路透社语料库
+路透社语料库包含 10,788个新闻文档，共计130万字。这些文档分成90个主题，按照 “训练”和“测试”分为两组。因此，fileid为“test/14826”的文档属于测试组。这样分割是为了训练和测试算法的，这种算法自动检测文档的主题
+>>> from nltk.corpus import reuters 
+>>> reuters.fileids() 
+>>> reuters.categories()
+与布朗语料库不同，路透社语料库的类别是有互相重叠的，只是因为新闻报道往往涉及多个主题。我们可以查找由一个或多个文档涵盖的主题，也可以查找包含在一个或多个类别中的文档。为方便起见，语料库方法既接受单个的fileid 也接受fileids列表作为参数
+>>> reuters.categories('training/9865')
+>>> reuters.categories(['trainging/9865','training/9880'])
+>>> reuters.fileids('barley')
+>>> reuters.fileids(['barley','corn'])
+我们可以以文档或类别为单位查找我们想要的词或句子。这些文本中最开始的 几个词是标题，按照惯例以大写字母存储
+>>> reuters.words('training/9865')[:14]
+>>> reuters.words(['training/9865','training/9880'])
+>>> reuters.words(categories='barley')
+>>> reuters.words(categories=['barley','corn'])
+五、就职演说语料库
+语料库实际上是55个文本的集合，每个文本都是一个总统的演说。这个集合的一个有趣特性是它的时间维度
+>>> from nltk.corpus import inaugural
+>>> inaugural.fileids()
+>>> [fileid[:4] for fileid in inaugural.fileids()]
+词汇
+america
+和
+citizen
+随时间推移的使用情况。下面的代码使用 w.lower()将就职演说语料库中的词汇转换成小写。然后用 startswith()检查它们是否以“目标”词汇america或citizen开始。因此，它会计算如American's和Citizens等
+>>> cfd = nltk.ConditionalFreqDist(
+...     (target,fileid[:4])
+...     for fileid in inaugural.fileids()
+...     for w in inaugural.words(fileid)
+...     for target in ['america','citizen']
+...     if w.lower().startswith(target)
+... )
+六、标注文本语料库
+许多文本语料库都包含语言学标注，有词性标注、命名实体、句法结构、语义角色等。 NLTK 中提供了很方便的方式来访问这些语料库中的几个
+七、其他语言的语料库
+NLTK 包含多国语言语料库。某些情况下你在使用这些语料库之前需要学习如何在Pyt hon中处理字符编码
+>>> nltk.corpus.cess_esp.words()
+>>> nltk.corpus.floresta.words()
+>>> nltk.corpus.indian.words('hindi.pos')
+>>> nltk.corpus.udhr.fileids()
+>>> nltk.corpus.udhr.words('Javanese-Latin1')[11:]
+这些语料库的最后，udhr，是超过300种语言的世界人权宣言。这个语料库的fileids包括有关文件所使用的字符编码，如：UTF8或者Latin1。让我们用条件频率分布来研究“世界人权宣言”（udhr）语料库中不同语言版本中的字长差异
+>>> from nltk.corpus import udhr
+>>> languages = ['Chickasaw', 'English','German_Deutsch',
+...     'Greenlandic_Inuktikut', 'Hungarian_Magyar', 'Ibibio_Efik']
+>>> cfd = nltk.ConditionalFreqDist(
+...     (lang,len(word))
+...     for lang in languages
+...     for word in udhr.words(lang + '-Latin1')
+... )
+cfd.plot(cumulative = True)
