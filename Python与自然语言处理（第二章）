@@ -121,3 +121,49 @@ NLTK 包含多国语言语料库。某些情况下你在使用这些语料库之
 ...     for word in udhr.words(lang + '-Latin1')
 ... )
 cfd.plot(cumulative = True)
+八、文本语料库的结构
+通常，文本会按照其可能对应的文体、来源、作者、语言等分类。有时，这些类别会重叠，尤其是在按主题分类的情况下，因为一个文本可能与多个主题相关。
+NLTK语料库阅读器支持高效的访问大量语料库，并且能用于处理新的语料库。
+NLTK 中定义的基本语料库函数：
+fileids() 语料库中的文件 
+fileids([categories]) 这些分类对应的语料库中的文件 
+categories() 语料库中的分类 
+categories([fileids]) 这些文件对应的语料库中的分类 
+raw() 语料库的原始内容 
+raw(fileids=[f1,f2,f3]) 指定文件的原始内容 
+raw(categories=[c1,c2]) 指定分类的原始内容 
+words() 整个语料库中的词汇 
+words(fileids=[f1,f2,f3]) 指定文件中的词汇 
+words(categories=[c1,c2]) 指定分类中的词汇 
+sents() 指定分类中的句子 
+sents(fileids=[f1,f2,f3]) 指定文件中的句子 
+sents(categories=[c1,c2]) 指定分类中的句子 
+abspath(fileid) 指定文件在磁盘上的位置 
+encoding(fileid) 文件的编码（如果知道的话） 
+open(fileid) 打开指定语料库文件的文件流 
+root() 到本地安装的语料库根目录的路径
+例子
+>>> from nltk.corpus import gutenberg
+>>> raw = gutenberg.raw("burgess-busterbrown.txt")
+>>> raw[1:20]
+>>> words = gutenberg.words("burgess-busterbrown.txt")
+>>> words[1:20]
+>>> sents = gutenberg.sents("burgess-busterbrown.txt")
+>>> sents[1:20]
+九、载入自己的语料库
+1.如果你有自己收集的文本文件，并且想使用前面讨论的方法访问它们，你可以很容易地在NLTK中的 PlaintextCorpusReader帮助下载入它们，PlaintextCorpusReader初始化函数的第二个参数可以是一个['a.txt', 'test/b.txt']这样的fileids链表，或者一个匹配所有fileids的模式，如：'[abc]/.*\.txt'
+>>> from nltk.corpus import PlaintextCorpusReader
+>>> corpus_root = '/NLP_python'
+>>> wordlists = PlaintextCorpusReader(corpus_root,'a.txt')
+>>> wordlists.words()
+（未成功）
+下面是另一个例子，假设你在本地硬盘上有自己的宾州树库（第3版）的拷贝，放在 C:\corpora。我们可以使用BracketParseCorpusReader访问这些语料。我们指定corpus _root为存放语料库中解析过的《华尔街日报》部分的位置，并指定file_pattern 与它的子文件夹中包含的文件匹配（用前斜杠）。 
+>>> from nltk.corpus import BracketParseCorpusReader 
+>>> corpus_root = r"C:\corpora\penntreebank\parsed\mrg\wsj" 
+>>> file_pattern = r".*/wsj_.*\.mrg" 
+>>> ptb = BracketParseCorpusReader(corpus_root, file_pattern) 
+>>> ptb.fileids() 
+['00/wsj_0001.mrg', '00/wsj_0002.mrg','00/wsj_0003.mrg','00/wsj_0004.mrg', ...]
+>>> len(ptb.sents()) 
+49208
+>>> ptb.sents(fileids='20/wsj_2013.mrg')
