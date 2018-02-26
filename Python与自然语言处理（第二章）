@@ -263,4 +263,46 @@ cfdist.plot() 为条件频率分布绘图
 cfdist.plot(samples, conditions) 指定样本和条件限制下绘图 
 cfdist1 < cfdist2 测试样本在cfdist1中出现次数是否小于在cfdist2中出现次数
 
+2.3更多关于Python：代码重用
+代码重用的两个重要方式：文本编辑器和Python函数
+一、使用文本编辑器创建程序
+通常，使用文本编辑器组织多行程序，然后让 Python一次运行整个程序会更好。
+使用IDLE，你可以通过“文件”菜单打开一个新窗口来做到这些
+步骤：
+1.D:\Anaconda1\Lib\idlelib目录下找到idle.bat文件打开后进入shell
+2.新建一个文本编辑器
+3.输入print('Monty Python')
+4.保存为文件，文件名为monty.py
+5.从File中打开该文件，然后运行该文件，在shell里显示
+注意：使用所有的小写字母，用下划线分割词汇， 使用.py 文件名后缀，例如：monty_python.py
+二、函数
+假设你正在分析一些文本，这些文本包含同一个词的不同形式，你的一部分程序需要将给定的单数名词变成复数形式。假设需要在两个地方做这样的事，一个是处理一些文本，另一个是处理用户的输入。 
+比起重复相同的代码好几次，把这些事情放在一个函数中会更有效和可靠。一个函数是命名的代码块，执行一些明确的任务，一个函数通常被定义来使用一些称为参数的变量接受一些输入，并且它可能会产生一些结果，也称为返回值。我们使用关键字 def 加函数名以及所有输入参数来定义一个函数，接下来是函数的主体
+例子：定义一个简单的函数来处理英文的复数词
+def plural(word):
+	if word.endswith('y'):
+		return word[:-1] + 'ies'
+	elif word[-1] in 'sx' or word[-2:] in ['sh','ch']:
+		return word + 'es'
+	elif word.endswith('an'):
+		return word[:-2] + 'en'
+	else:
+		return word + 's'
+>>> plural('fairy')
+'fairies'
+>>> plural('man')
+'men'
+三、模块
+将自己写的文字处理函数收集到一个单独的地方，访问以前定义的函数不必复制
+1.在文本编辑器里复制写好的函数
+2.run mudule
+3.在shell里
+>>> from monty import plural
+>>> plural('wish')
+'wishes'
+>>> plural('fan')
+'fen'
+在文本编辑器里直接改正这个函数的错误就行
+在一个文件中的变量和函数定义的集合被称为一个 Python模块（module）。相关模块的 集合称为一个包（package）。处理布朗语料库的 NLTK代码是一个模块，处理各种不同的语 料库的代码的集合是一个包。NLTK 的本身是包的集合，有时被称为一个库（library）。
+
 
