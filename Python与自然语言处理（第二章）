@@ -305,4 +305,11 @@ def plural(word):
 在文本编辑器里直接改正这个函数的错误就行
 在一个文件中的变量和函数定义的集合被称为一个 Python模块（module）。相关模块的 集合称为一个包（package）。处理布朗语料库的 NLTK代码是一个模块，处理各种不同的语 料库的代码的集合是一个包。NLTK 的本身是包的集合，有时被称为一个库（library）。
 
-
+四、词汇列表语料库
+def unusual_words(text):
+	text_vocab = set(w.lower() for w in text if w.isalpha())
+	english_vocab = set(w.lower() for w in nltk.corpus.words.words())
+	unusual = text_vocab.difference(english_vocab)
+	return sorted(unusual)
+>>> import nltk
+>>> unusual_words(nltk.corpus.gutenberg.words('austen-sense.txt'))
