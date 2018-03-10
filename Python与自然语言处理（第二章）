@@ -306,7 +306,7 @@ def plural(word):
 在一个文件中的变量和函数定义的集合被称为一个 Python模块（module）。相关模块的 集合称为一个包（package）。处理布朗语料库的 NLTK代码是一个模块，处理各种不同的语 料库的代码的集合是一个包。NLTK 的本身是包的集合，有时被称为一个库（library）。
 
 四、词汇列表语料库
-过滤文本：此程序计算文本的词汇表，然后删除所有在现有的词汇列表中出现的元素，只留下罕见或拼写错误的词
+1.过滤文本：此程序计算文本的词汇表，然后删除所有在现有的词汇列表中出现的元素，只留下罕见或拼写错误的词
 在函数文件里
 def unusual_words(text):
 	text_vocab = set(w.lower() for w in text if w.isalpha())
@@ -317,21 +317,36 @@ def unusual_words(text):
 >>> import nltk
 >>> unusual_words(nltk.corpus.gutenberg.words('austen-sense.txt'))
 
-停用词
+2.停用词
 还有一个停用词语料库，就是那些高频词汇，如：the，to，我们有时在进一步的处理之前想要将它们从文档中过滤。停用词通常几乎没有什么词汇内容，而它们的出现会
 使区分文本变困难
 import nltk
 from nltk.corpus import stopwords
 stopwords.words('English')
 
+3.定义一个函数来计算文本中没有在停用词列表中的词的比例
 >>> import nltk
 >>> def content_fraction(text):
 	stopwords = nltk.corpus.stopwords.words('english')
 	content = [w for w in text if w.lower() not in stopwords]
 	return len(content) / len(text)
-	
-定义一个函数来计算文本中没有在停用词列表中的词的比例。
 >>> content_fraction(nltk.corpus.reuters.words())
 0.735240435097661
->>> 
 
+4.一个字母拼词谜题：在由随机选择的字母组成的网格中，选择里面的字母组成词。 这个谜题叫做 “ 目标 ”。图中文字的意思是：用这里显示的字母你能组成多少个 4 
+字母或者 更多字母的词？每个字母在每个词中只能被用一次 。每个词必须包括中间的字母并且必须至 少有一个 9 字母的词 。没有复数以“ s ”结尾 ；没有外来词 ；
+没有姓名 。 能组出 21 个词就是 “ 好 ”； 32 个词 ，“ 很好 ”； 42 个词 ，“ 非常好 
+>>> puzzle_letters = nltk.FreqDist('egivronl')
+>>> obligatory = 'r'#必须有的字母
+>>> wordlist = nltk.corpus.words.words()
+>>>[w for w in wordlist if len(w) >= 4 and obligatory in w and nltk.FreqDist(w) <= puzzle_letters]#每个字母最多出现一次且长度不小于4
+
+5.另一个词汇列表是名字语料库，包括8000个按性别分类的名字。男性和女性的名字存储在单独的文件中。让我们找出同时出现在两个文件中的名字即性别暧昧的名字： 
+>>> names = nltk.corpus.names
+>>> names.fileids()
+['female.txt', 'male.txt']
+>>> male_names = names.words('male.txt');
+>>> female_names = names.words('female.txt')
+>>> [w for w in male_names if w in female_names]
+
+6.
