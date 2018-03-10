@@ -306,10 +306,22 @@ def plural(word):
 在一个文件中的变量和函数定义的集合被称为一个 Python模块（module）。相关模块的 集合称为一个包（package）。处理布朗语料库的 NLTK代码是一个模块，处理各种不同的语 料库的代码的集合是一个包。NLTK 的本身是包的集合，有时被称为一个库（library）。
 
 四、词汇列表语料库
+过滤文本：此程序计算文本的词汇表，然后删除所有在现有的词汇列表中出现的元素，只留下罕见或拼写错误的词
+在函数文件里
 def unusual_words(text):
 	text_vocab = set(w.lower() for w in text if w.isalpha())
 	english_vocab = set(w.lower() for w in nltk.corpus.words.words())
 	unusual = text_vocab.difference(english_vocab)
 	return sorted(unusual)
+运行check module模块
 >>> import nltk
 >>> unusual_words(nltk.corpus.gutenberg.words('austen-sense.txt'))
+
+停用词
+还有一个停用词语料库，就是那些高频词汇，如：the，to，我们有时在进一步的处理之前想要将它们从文档中过滤。停用词通常几乎没有什么词汇内容，而它们的出现会
+使区分文本变困难
+import nltk
+from nltk.corpus import stopwords
+stopwords.words('English')
+
+
