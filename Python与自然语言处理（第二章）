@@ -348,5 +348,9 @@ stopwords.words('English')
 >>> male_names = names.words('male.txt');
 >>> female_names = names.words('female.txt')
 >>> [w for w in male_names if w in female_names]
-
-6.
+条件频率分布，显示男性和女性名字的结尾字母
+>>> cfd = nltk.ConditionalFreqDist(
+	(fileid,name[-1])
+	for fileid in names.fileids()
+	for name in names.words(fileid))
+>>> cfd.plot()
