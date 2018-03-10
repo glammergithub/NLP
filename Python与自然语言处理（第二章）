@@ -324,4 +324,14 @@ import nltk
 from nltk.corpus import stopwords
 stopwords.words('English')
 
+>>> import nltk
+>>> def content_fraction(text):
+	stopwords = nltk.corpus.stopwords.words('english')
+	content = [w for w in text if w.lower() not in stopwords]
+	return len(content) / len(text)
+	
+定义一个函数来计算文本中没有在停用词列表中的词的比例。
+>>> content_fraction(nltk.corpus.reuters.words())
+0.735240435097661
+>>> 
 
