@@ -354,3 +354,11 @@ stopwords.words('English')
 	for fileid in names.fileids()
 	for name in names.words(fileid))
 >>> cfd.plot()
+
+发音的词典
+一个稍微丰富的词典资源是一个表格（或电子表格），在每一行中含有一个词加一些性质。NLTK中包括美国英语的CMU 发音词典，它是为语音合成器使用而设计的
+>>> entries = nltk.corpus.cmudict.entries()
+>>> len(entries)
+133737
+>>> for entry in entries[39943:39951]:
+	print (entry)
