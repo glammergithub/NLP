@@ -355,10 +355,33 @@ stopwords.words('English')
 	for name in names.words(fileid))
 >>> cfd.plot()
 
-发音的词典
-一个稍微丰富的词典资源是一个表格（或电子表格），在每一行中含有一个词加一些性质。NLTK中包括美国英语的CMU 发音词典，它是为语音合成器使用而设计的
+五、发音的词典
+1.一个稍微丰富的词典资源是一个表格（或电子表格），在每一行中含有一个词加一些性质。NLTK中包括美国英语的CMU 发音词典，它是为语音合成器使用而设计的
 >>> entries = nltk.corpus.cmudict.entries()
 >>> len(entries)
 133737
 >>> for entry in entries[39943:39951]:
 	print (entry)
+
+2.每个条目由两部分组成我们可以用一个复杂的 for语句来一个一个的处理这些。我们没有写for entry in entries:而是用两个变量名 word 和pron 替换entry。
+现在，每次通过循环时，word 被分配条目的第一部分，pron 被分配条目的第二部分
+for word,pron in entries:
+	if(len(pron) == 3):
+		ph1,ph2,ph3 = pron
+		if ph1 == 'P' and ph3 == 'T':
+			print(word,ph2)
+3.这段程序找到所有发 音结尾与nicks 相似的词汇。你可以使用此方法来找到押韵的词。 
+>>> syllable = ['N','IHO','K','S']
+>>> [word for word,pron in entries if pron[-4:] == syllable]
+4.其他一些发音与书写之间的不匹配的例子
+>>> [w for w,pron in entries if pron[-1] == 'M' and w[-1] == 'n']
+['autumn', 'column', 'condemn', 'damn', 'goddamn', 'hymn', 'solemn']
+>>> sorted(set(w for w,pron in entries if pron[0] == 'N' and w[0] != 'n'))
+['gnagey', 'gnaizda', 'gnann', 'gnarl'...]
+5.音素包含数字表示主重音(1)，次重音(2)和无重音(0)。定义一个函数来提取重音数字，然后扫描我们的词典，找到具有特定重音模式的词汇
+def stress(pron):
+        return [char for phone in pron for char in phone if char.isdigit()]
+>>> import nltk
+>>> entries = nltk.corpus.cmudict.entries()
+>>> [w for w,pron in entries if stress(pron) == ['0','1','0','2','0']]
+>>> [w for w,pron in entries if stress(pron) == ['0','1','0','2','0']]
