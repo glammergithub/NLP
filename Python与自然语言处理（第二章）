@@ -385,3 +385,21 @@ def stress(pron):
 >>> entries = nltk.corpus.cmudict.entries()
 >>> [w for w,pron in entries if stress(pron) == ['0','1','0','2','0']]
 >>> [w for w,pron in entries if stress(pron) == ['0','1','0','2','0']]
+6.我们可以使用条件频率分布来帮助我们找到词汇的最小受限集合。在这里，我们找到所 有p 开头的三音素词，并按照它们的第一个和最后一个音素来分组。 
+>>> import nltk
+>>> entries = nltk.corpus.cmudict.entries()
+>>> p3 = [(pron[0] + '-' + pron[2],word)
+	for (word,pron)in entries
+      if pron[0] == 'P' and len(pron) == 3]
+>>> cfd = nltk.ConditionalFreqDist(p3)
+>>> cfd.conditions()
+>>> for template in cfd.conditions():
+	if(len(cfd[template]) > 10):
+		words = cfd[template].keys()
+		wordlist = ' '.join(words)
+		print(template,wordlist[:70] + "...")
+7.我们可以通过查找特定词汇来访问它，而不必遍历整个词典。我们将使用Python的词典数据结构。
+通过指定词典的名字后面跟一个包含在方括号里的关键字（例如：词 fire）来查词典
+>>> prondict = nltk.corpus.cmudict.dict()
+>>> prondict['fire']
+[['F', 'AY1', 'ER0'], ['F', 'AY1', 'R']]
