@@ -403,3 +403,6 @@ def stress(pron):
 >>> prondict = nltk.corpus.cmudict.dict()
 >>> prondict['fire']
 [['F', 'AY1', 'ER0'], ['F', 'AY1', 'R']]
+查找文本中的单词的首字母在词典中的发音
+>>> text = ['natural','language','processing']
+>>> [ph for w in text for ph in prondict[w][0]]
