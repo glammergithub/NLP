@@ -546,3 +546,53 @@ mint.n.06: a plant where money is coined by authority of the government
 
 可以使用dir()查看词汇关系和同义词集上定义的其它方法
 >>> dir(wn.synset('harmony.n.02'))
+
+八、语义相似度
+给定一个同义词集，我们可以遍历WordNet网络来查找相关含义的同义词集。知道哪些词是语义相关的，对索引文本集合非常有用，当搜索一个一般性的用语——
+例如： 车辆 ——时就可以匹配包含具体用语——例如豪华轿车——的文档。 
+回想一下每个同义词集都有一个或多个上位词路径连接到一个根上位词，如entity.n.01。连接到同一个根的两个同义词集可能有一些共同的上位词。
+如果两个同义词集共用一个非常具体的上位词——在上位词层次结构中处于较低层的上位词——它们一定有密切的联系
+>>> right = wn.synset('right_whale.n.01')
+>>> orca = wn.synset('orca.n.01')
+>>> minke = wn.synset('minke_whale.n.01')
+>>> tortoise = wn.synset('tortoise.n.01')
+>>> novel = wn.synset('novel.n.01')
+>>> right.lowest_common_hypernyms(minke)
+[Synset('baleen_whale.n.01')]
+>>> right.lowest_common_hypernyms(orca)
+[Synset('whale.n.02')]
+>>> right.lowest_common_hypernyms(tortoise)
+[Synset('vertebrate.n.01')]
+>>> right.lowest_common_hypernyms(novel)
+[Synset('entity.n.01')]
+当然，我们知道，鲸鱼是非常具体的（须鲸更是如此），脊椎动物是更一般的，而实体 完全是抽象的一般的。我们可以通过查找每个同义词集深度量化这个一般性的概念
+>>> wn.synset('baleen_whale.n.01').min_depth()
+14
+>>> wn.synset('whale.n.02').min_depth()
+13
+>>> wn.synset('vertebrate.n.01').min_depth()
+8
+>>> wn.synset('entity.n.01').min_depth()
+0
+
+WordNet同义词集的集合上定义了类似的函数能够深入的观察。例如：path_similari tyassigns 是基于上位词层次结构中相互连接的概念之间的最短路径在0-1范围
+的打分（两者之间没有路径就返回-1）。同义词集与自身比较将返回1。考虑以下的相似度：露脊鲸与小须鲸、逆戟鲸、乌龟以及小说。数字本身的意义并不大，当我
+们从海洋生物的语义空间转移到非生物时它是减少的。 
+>>> right.path_similarity(minke)
+0.25
+>>> right.path_similarity(orca)
+0.16666666666666666
+>>> right.path_similarity(tortoise)
+0.07692307692307693
+>>> right.path_similarity(novel)
+0.043478260869565216
+九、小结
+1.文本语料库是一个大型结构化文本的集合。NLTK包含了许多语料库，如：布朗语料库 nltk.corpus.brown。
+2.有些文本语料库是分类的，例如通过文体或者主题分类；有时候语料库的分类会相互重叠。 
+3.条件频率分布是一个频率分布的集合，每个分布都有一个不同的条件。它们可以用于通过给定内容或者文体对词的频率计数。
+4.行数较多的Python程序应该使用文本编辑器来输入，保存为.py后缀的文件，并使用import语句来访问。
+5.Python函数允许你将一段特定的代码块与一个名字联系起来，然后重用这些代码想用多少次就用多少次。
+6.一些被称为“方法”的函数与一个对象联系在起来，我们使用对象名称跟一个点然后跟方法名称来调用它，就像：x.funct(y)或者word.isalpha()。 
+7.要想找到一些关于变量v 的信息，可以在Pyhon交互式解释器中输入 help(v)来阅读这 一类对象的帮助条目。
+8.WordNet是一个面向语义的英语词典，由同义词的集合—或称为同义词集（synsets）— 组成，并且组织成一个网络。 
+9.默认情况下有些函数是不能使用的，必须使用Python的import语句来访问
