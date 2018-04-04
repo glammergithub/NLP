@@ -431,3 +431,41 @@ def stress(pron):
 'dog'
 >>> translate['jeter']
 >>> swadesh.entries(['fr','en'])
+
+六、WordNet
+1.WordNet是面向语义的英语词典，类似与传统辞典，但具有更丰富的结构。NLTK中包括英语WordNet，共有155,287个词和117,659个同义词
+集合。我们将以寻找同义词和它们 在WordNet 中如何访问开始。
+>>> from nltk.corpus import wordnet as wn
+>>> wn.synsets('motorcar')
+[Synset('car.n.01')]#synset同义词集
+因此，motorcar 只有一个可能的含义，它被定义为 car.n.01，car的第一个名词意义。
+car.n.01被称为synset或“同义词集”，意义相同的词（或“词条”）的集合： 
+2.>>> wn.synset('car.n.01').lemma_names()
+['car', 'auto', 'automobile', 'machine', 'motorcar']
+3.同义词集中的每个词可以有多种含义，例如：car 也可能是火车车厢、一个货车或电梯厢。但我们只对这个同义词集中所有词来说最常用的一个意义感兴趣。同义词集也有一些一般的定义和例句
+>>> wn.synset('car.n.01').definition()
+'a motor vehicle with four wheels; usually propelled by an internal combustion engine'
+>>> wn.synset('car.n.01').examples()
+['he needs a car to get to work']
+4.虽然定义帮助人们了解一个同义词集的本意，同义词集中的词往往对我们的程序更有用。为了消除歧义，我们将这些词标注为car.n.01.automobile，car.n.01.motorcar 等。 
+这种同义词集和词的配对叫做词条。我们可以得到指定同义词集的所有词条，查找特定的词条，得到一个词条对应的同义词集，也可以得到一个词条的“名字”： 
+>>> wn.synset('car.n.01').lemmas()
+[Lemma('car.n.01.car'), Lemma('car.n.01.auto'), Lemma('car.n.01.automobile'), Lemma('car.n.01.machine'), Lemma('car.n.01.motorcar')]
+>>> wn.lemma('car.n.01.automobile')
+Lemma('car.n.01.automobile')
+>>> wn.lemma('car.n.01.automobile').name()
+'automobile'
+>>> wn.synsets('car')
+[Synset('car.n.01'), Synset('car.n.02'), Synset('car.n.03'), Synset('car.n.04'), Synset('cable_car.n.01')]
+>>> for synset in wn.synsets('car'):
+	print(synset.lemma_names())
+
+	
+['car', 'auto', 'automobile', 'machine', 'motorcar']
+['car', 'railcar', 'railway_car', 'railroad_car']
+['car', 'gondola']
+['car', 'elevator_car']
+['cable_car', 'car']
+>>> wn.lemmas('car')
+[Lemma('car.n.01.car'), Lemma('car.n.02.car'), Lemma('car.n.03.car'), Lemma('car.n.04.car'), Lemma('cable_car.n.01.car')]
+
