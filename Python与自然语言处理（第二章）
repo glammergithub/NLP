@@ -469,3 +469,32 @@ Lemma('car.n.01.automobile')
 >>> wn.lemmas('car')
 [Lemma('car.n.01.car'), Lemma('car.n.02.car'), Lemma('car.n.03.car'), Lemma('car.n.04.car'), Lemma('cable_car.n.01.car')]
 
+WordNet的同义词集对应于抽象的概念，它们并不总是有对应的英语词汇。这些概念在层次结构中相互联系在一起。一些概念也很一般，如实体、状态、事件；
+这些被称为独一无二的根同义词集。其他的，如：油老虎和有仓门式后背的汽车等就比较具体的多。
+WordNet使在概念之间漫游变的容易。例如：一个如摩托车这样的概念，我们可以看到它的更加具体（直接）的概念—— 下位词。
+>>> sorted([lemma.name() for synset in types_of_motorcar for lemma in synset.lemmas()])
+['Model_T', 'S.U.V.', 'SUV', 'Stanley_Steamer', 'ambulance', 'beach_waggon', 'beach_wagon', 'bus', 'cab', 'compact', 'compact_car',
+'convertible', 'coupe', 'cruiser', 'electric', 'electric_automobile', 'electric_car', 'estate_car', 'gas_guzzler', 'hack', 'hardtop',
+'hatchback', 'heap', 'horseless_carriage', 'hot-rod', 'hot_rod', 'jalopy', 'jeep', 'landrover', 'limo', 'limousine', 'loaner', 'minicar'
+, 'minivan', 'pace_car', 'patrol_car', 'phaeton', 'police_car', 'police_cruiser', 'prowl_car', 'race_car', 'racer', 'racing_car',
+'roadster', 'runabout', 'saloon', 'secondhand_car', 'sedan', 'sport_car', 'sport_utility', 'sport_utility_vehicle', 'sports_car', 
+'squad_car', 'station_waggon', 'station_wagon', 'stock_car', 'subcompact', 'subcompact_car', 'taxi', 'taxicab', 'tourer', 'touring_car',
+'two-seater', 'used-car', 'waggon', 'wagon']
+我们也可以通过访问上位词来浏览层次结构。有些词有多条路径，因为它们可以归类在一个以上的分类中。car.n.01与 entity.n.01之间有两条路径，因为
+wheeled_vehicle.n. 01可以同时被归类为车辆和容器。 
+>>> motorcar.hypernyms()
+[Synset('motor_vehicle.n.01')]
+>>> paths = motorcar.hypernym_paths()
+>>> len(paths)
+2
+>>> [synset.name() for synset in paths[0]]
+['entity.n.01', 'physical_entity.n.01', 'object.n.01', 'whole.n.02', 'artifact.n.01', 'instrumentality.n.03', 'container.n.01',
+'wheeled_vehicle.n.01', 'self-propelled_vehicle.n.01', 'motor_vehicle.n.01', 'car.n.01']
+>>> [synset.name() for synset in paths[1]]
+['entity.n.01', 'physical_entity.n.01', 'object.n.01', 'whole.n.02', 'artifact.n.01', 'instrumentality.n.03', 'conveyance.n.03',
+'vehicle.n.01', 'wheeled_vehicle.n.01', 'self-propelled_vehicle.n.01', 'motor_vehicle.n.01', 'car.n.01']
+我们可以用如下方式得到一个最一般的上位（或根上位）同义词集
+>>> motorcar.root_hypernyms()
+[Synset('entity.n.01')]
+
+七、更多的词汇关系
