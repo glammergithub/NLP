@@ -8,3 +8,4 @@ vim hello.py
 输入一个字符，变成插入模式
 输入程序 按ESC保存，输入冒号，再输入wq
 编译 python3 hello.py -o hello
+文件夹 vim ./xxx(文件夹名字)/xx(文件名字)
