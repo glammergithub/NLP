@@ -1,0 +1,4 @@
+anaconda3环境
+source activate env
+git clone https://github.com/deepmipt/DeepPavlov.git
+python setup.py develop
