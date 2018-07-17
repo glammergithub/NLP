@@ -9,3 +9,5 @@ vim hello.py
 输入程序 按ESC保存，输入冒号，再输入wq
 编译 python3 hello.py -o hello
 文件夹 vim ./xxx(文件夹名字)/xx(文件名字)
+编译之后，输入./xxx 输入的内容，就能对应输出了
+https://blog.csdn.net/mr_jj_lian/article/details/6835137
