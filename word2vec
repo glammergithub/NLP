@@ -1,3 +1,279 @@
 测试
 安装gensim
 https://radimrehurek.com/gensim/install.html
+import numpy as np
+import jieba
+import math
+from collections import Counter
+from sklearn import preprocessing
+class word2vec:
+    
+    def __init__(self,veclen = 10,model = 'cbow',ngram = 5,learning_rate = 0.0025):
+        """
+        word_dict:字典
+        veclen:词向量的长度
+        model:Cbow/Skip-gram模型
+        text_list:文本列表
+        huffmantree:哈夫曼树,包括中间结点和叶子结点
+        ngram:n元语法模型,根据周围n-1个词来预测这个词本身
+        learning_rate:学习率
+        """
+        self.word_dict = {}
+        self.veclen = veclen
+        self.model = model
+        self.text_list = None
+        self.huffmantree = None
+        self.ngram = ngram
+        self.learning_rate = learning_rate
+    
+    
+    def train_model(self):
+        obj = wordcount()
+        res = obj.cntres
+        self.text_list = obj.text_list
+        self.gen_dict(obj.cntres)
+        """
+        for word in self.word_dict:
+            print(self.word_dict[word])
+        """
+        self.huffmantree = HuffmanTree(self.word_dict,self.veclen)
+        
+        left = self.ngram >> 1
+        right = self.ngram - left
+        
+        if self.model == 'cbow':
+            model = self.gen_Cbow
+        else:
+            model = self.gen_Skip_gram
+        
+        text = self.text_list
+        
+        for i in range(text.__len__()):
+            model(text[i],text[max(0,i - left):i] + text[i + 1 : min(i + 1 + right,text.__len__())])
+        """
+        for word in self.word_dict:
+            print(self.word_dict[word]['value'],self.word_dict[word]['vector'])
+        """
+    def gen_Cbow(self,word,word_ngram):
+        
+        word_huffmancode = self.word_dict[word]['code']
+        ngram_vector_sum = np.zeros([1,self.veclen])#n元词向量和
+        for i in range(word_ngram.__len__()):
+            ngram_vector_sum += self.word_dict[word_ngram[i]]['vector']
+        
+        e = self.train(word_huffmancode,ngram_vector_sum,self.huffmantree.root)
+        for u in word_ngram:
+            self.word_dict[u]['vector'] += e
+            self.word_dict[u]['vector'] = preprocessing.normalize(self.word_dict[u]['vector'])
+       
+    def gen_Skip_gram(self,word,word_ngram):
+        
+        word_vector = self.word_dict[word]['vector']
+        
+        for u in word_ngram:
+            u_huffmancode = self.word_dict[u]['code']
+            e = self.train(u_huffmancode,word_vector,self.huffmantree.root)
+            self.word_dict[word]['vector'] += e
+            self.word_dict[word]['vector'] = preprocessing.normalize(self.word_dict[word]['vector'])
+            
+    def train(self,word_huffmancode,vector,root):
+        
+        node = root#从根向下
+        e = np.zeros([1,self.veclen])#误差初始化为零向量
+        path_len = word_huffmancode.__len__()
+        for i in range(path_len):
+            cur_code = word_huffmancode[i]#左0右1,正类被分到左边
+            q = self.sigmoid(np.dot(vector,node.value.T))
+            g = self.learning_rate * (1 - int(cur_code) - q)
+            e += g * vector
+            node.value += g * vector
+            node.value = preprocessing.normalize(node.value)
+            if cur_code == '0':
+                node = node.left
+            else:
+                node = node.right
+        return e
+        
+    def gen_dict(self,word_freq):
+        sum_cnt = sum(word_freq.values())
+        for word in word_freq:#建立一个字典,键为单词,键值为字典
+            temp_dict = dict(
+                value = word,
+                freq = word_freq[word],
+                possibility = word_freq[word] / sum_cnt,
+                vector = np.random.random([1,self.veclen]),#哈夫曼树叶结点,初始化为随机向量
+                code = None
+            )
+            self.word_dict[word] = temp_dict
+            #print(temp_dict)  
+    
+        
+    def sigmoid(self,value):
+        return 1 / (1 + math.exp(-value))
+            
+class wordcount():
+    
+    def __init__(self):
+        self.cntres = []
+        self.text_list = []
+        self.result = self.readtext()
+        self.stopwords = self.get_stopwords()
+        self.remove_stopwords(self.result,self.stopwords)
+
+    def readtext(self):#读取文本，每一个元素为字符串
+        text = []
+        res = []
+        with open('cut_std_zh_wiki_01','r') as f:
+            for line in f:
+                text.append(line.strip('\n').split(','))
+        tmp = [str(i) for i in text]
+        """
+        利用结巴分词,放在列表里
+        """
+        for line in tmp:
+            ans = jieba.cut(line)
+            ans = list(ans)
+            res += ans
+        return res
+
+    def get_stopwords(self):#获取停用词列表,流程同读取文本
+        stop_words = []
+        res = []
+        with open('ss.txt','r') as s:
+            for line in s:
+                stop_words.append(line.strip('\n').split(','))
+        stop_words = [str(i) for i in stop_words]
+        for line in stop_words:
+            stopword = jieba.cut(line)
+            stopword = list(stopword)
+            res += stopword
+        return res
+
+    def remove_stopwords(self,result,stopwords):#移除停用词
+        tmp = []
+        for word in result:
+            if word not in stopwords:
+                tmp.append(word)
+        self.text_list = tmp
+        self.cntres = Counter(tmp)
+
+        
+class HuffmanTreeNode:
+    def __init__(self,value,possibility):
+        
+        self.code = ""#结点哈夫曼编码
+        self.left = None#结点左孩子
+        self.right = None#结点右孩子
+        self.root = None#根结点
+        self.possibility = possibility#结点概率值
+        self.value = value#结点的值,叶子结点为单词,中间结点为向量
+        
+class HuffmanTree:
+    def __init__(self,word_dict,vec_len):
+        
+        self.veclen = vec_len#词向量长度
+        self.root = None#根结点
+        word_list = list(word_dict.values())
+        node_list = []
+        
+        """
+        将字典的值和概率对应,叶子结点值为单词,概率为出现次数/总词数,中间结点值为向量,概率为其孩子结点的概率和,
+        """
+        for i in word_list:
+            node_list.append(HuffmanTreeNode(i['value'],i['possibility']))
+            
+        self.build_tree(node_list)
+        self.gen_huffmantree_code(word_dict)
+        """
+        for word in word_dict:
+            print(word_dict[word])
+        """
+    """
+    合并结点
+    """
+    def merge_nodes(self,node1,node2):
+        #形成双亲结点,双亲结点的初始化向量为零向量
+        par_node = HuffmanTreeNode(np.zeros((1,self.veclen)),node1.possibility + node2.possibility)
+        #取较大概率的结点为左孩子,较小的为右孩子
+        maxpos = max(node1.possibility,node2.possibility)
+        if(maxpos == node1.possibility):
+            par_node.left = node1
+            par_node.right = node2
+        else:
+            par_node.left = node2
+            par_node.right = node1
+        return par_node    
+    """
+    建立哈夫曼树
+    """
+    def build_tree(self,node_list):#将每个结点都找到它的左孩子和右孩子
+        
+        num = len(node_list)
+        """
+        每次取概率最小的两个结点,其双亲结点的概率为它们的概率的和,将双亲结点插入列表,孩子结点弹出,直到只剩下根结点为止
+        """
+        if num >= 2:
+            while node_list.__len__() > 1:
+                id1 = 0
+                id2 = 1
+                if node_list[id1].possibility > node_list[id2].possibility:
+                    id1 = 1
+                    id2 = 0
+                for i in range(2,node_list.__len__()):#这里要用内置的函数取列表的长度,因为列表长度是动态变化的
+                    if node_list[i].possibility < node_list[id1].possibility:
+                        id1 = i
+                    elif node_list[i].possibility < node_list[id2].possibility:
+                        id2 = i
+                par_node = self.merge_nodes(node_list[id1],node_list[id2])
+                #一定要先弹出去后面下标再弹前面的下标,这样弹出后面下标前面下标不会变,反之则会影响后面的下标变化,导致标号出错
+                if id1 < id2:
+                    node_list.pop(id2)
+                    node_list.pop(id1)
+                else:
+                    node_list.pop(id1)
+                    node_list.pop(id2)
+                node_list.insert(0,par_node)
+            self.root = node_list[0]
+        return node_list
+    """
+    产生每个结点的哈夫曼编码,利用栈,从根结点开始,先根遍历,直到走到叶子结点为止,左0右1
+    """
+    def gen_huffmantree_code(self,tree):
+        
+        node_stack = []
+        node_stack.insert(0,self.root)
+        
+        while node_stack.__len__() > 0:
+            cur = node_stack.pop()
+            while(cur.left != None and cur.right != None):
+                code = cur.code
+                cur.left.code = code + "0"
+                cur.right.code = code + "1"
+                node_stack.append(cur.right)
+                cur = cur.left
+            tree[cur.value]['code'] = cur.code
+            
+if __name__ == '__main__':
+    wc = word2vec(veclen = 10)
+    wc.train_model()
+    x = {}
+    data = wc.word_dict
+    for key in data:
+        temp = data[key]['vector']
+        temp = preprocessing.normalize(temp)
+        x[key] = temp
+    def cal_similarity(data,key1,key2):
+        return data[key1].dot(data[key2].T)[0][0]
+    keys = list(x.keys())
+    res = {}
+    for key in keys:
+        res[key] = cal_similarity(x,key,'昨日')
+    #print(type(res))
+    res = sorted(res.items(),key = lambda v:v[1],reverse = True)
+    
+    cnt = 0
+    for x in res:
+        if cnt >= 20:
+            break
+        print(x[0],x[1])
+        cnt+=1
