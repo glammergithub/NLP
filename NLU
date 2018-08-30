@@ -11,3 +11,5 @@ python -m rasa_nlu.server -c sample_configs/config_jieba_mitie_sklearn.yml --pat
 sudo apt install jq并在后面加上|jq即可
 curl -XPOST localhost:5000/parse -d '{"q":"我发烧了该吃什么药？", "project": "rasa_nlu_test", "model": "model_20170921-170911"}' | python -mjson.tool
 curl -XPOST localhost:5000/parse -d '{"q":"我发烧了该吃什么药？", "project": "rasa_nlu_test", "model": "model_20170921-170911"}' | python -mjson.tool
+
+ python -m rasa_nlu.train -c model_nlu_config.yml --data data/demo-   rasa_zh.json --path models 
