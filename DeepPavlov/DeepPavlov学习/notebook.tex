@@ -1,0 +1,778 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{DeepPavlov1}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{DeepPavlov实践}\label{deeppavlovux5b9eux8df5}
+
+    \subsubsection{一　DeepPavlov数据准备}\label{ux4e00deeppavlovux6570ux636eux51c6ux5907}
+
+    \paragraph{下载并解压缩数据}\label{ux4e0bux8f7dux5e76ux89e3ux538bux7f29ux6570ux636e}
+
+下载命名实体识别任务（NER）的CoNLL-2003数据，将其放在文件夹data中
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}\PYZsh{}新建data文件夹，使用data.utils中的download\PYZus{}decompress}
+        \PY{k+kn}{import} \PY{n+nn}{deeppavlov}
+        \PY{k+kn}{from} \PY{n+nn}{deeppavlov}\PY{n+nn}{.}\PY{n+nn}{core}\PY{n+nn}{.}\PY{n+nn}{data}\PY{n+nn}{.}\PY{n+nn}{utils} \PY{k}{import} \PY{n}{download\PYZus{}decompress}
+        \PY{n}{download\PYZus{}decompress}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://lnsigo.mipt.ru/export/deeppavlov\PYZus{}data/conll2003\PYZus{}v2.tar.gz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{将文本数据解析为机器可读数据集}\label{ux5c06ux6587ux672cux6570ux636eux89e3ux6790ux4e3aux673aux5668ux53efux8bfbux6570ux636eux96c6}
+
+使用包含带有NE（命名实体）标签的推文的语料库.具有NER的典型文件包含有成对标记\\
+不同文档由-DOCSTART为开头\\
+不同的句子由空行分隔\\
+本文仅关注标记,行的第一个元素和最后一个元素,删除它们之间的POS信息
+
+    构建一个NerDatasetReader类,提供读取数据集的功能.\\
+返回一个包含字段train,test,valid的字典,每个字段存储一个样本列表,每个样本由标记和标签组成,例子如下:
+
+    \{'train':{[}...{]},'valid':{[}...{]},'test':{[}...{]}\}
+
+    数据集中有三个独立的部分\\
+训练模型的训练数据\\
+用于评估和超参数(开始学习过程之前的参数)调整的验证数据\\
+用于最终评估模型的测试数据\\
+这三个部分分别存储在单独的txt文件里
+
+    \textbf{实现效果}\\
+\textbf{将'train.txt','test.txt','valid.txt'及其内容形成字典,字典由元组组成,每一个元组包含了一组关系密切的词对应的tokens和tags}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{k+kn}{from} \PY{n+nn}{pathlib} \PY{k}{import} \PY{n}{Path}
+         \PY{k}{class} \PY{n+nc}{NerDatasetReader}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{read}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{data\PYZus{}path}\PY{p}{,}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{n}{provide\PYZus{}pos}
+                 \PY{n}{data\PYZus{}parts} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                 \PY{n}{extension} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.txt}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{c+c1}{\PYZsh{}print(data\PYZus{}parts)}
+                 \PY{n}{dataset} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+                 \PY{k}{for} \PY{n}{data\PYZus{}part} \PY{o+ow}{in} \PY{n}{data\PYZus{}parts}\PY{p}{:}\PY{c+c1}{\PYZsh{}遍历每一个元素}
+                     \PY{n}{file\PYZus{}path} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}path}\PY{p}{)} \PY{o}{/} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}part} \PY{o}{+} \PY{n}{extension}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成文件路径}
+                     \PY{c+c1}{\PYZsh{}print(file\PYZus{}path)}
+                     \PY{n}{dataset}\PY{p}{[}\PY{n}{data\PYZus{}part}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{read\PYZus{}file}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成字典,字典的每个部分内容是xxx.txt}
+                 \PY{k}{return} \PY{n}{dataset}
+             \PY{k}{def} \PY{n+nf}{read\PYZus{}file}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}读文件}
+                 \PY{n}{samples} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                 \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{k}{as} \PY{n}{rr}\PY{p}{:}
+                     \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}DOCSTART\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{c+c1}{\PYZsh{}tokens标记}
+                     \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{c+c1}{\PYZsh{}tags标签}
+                     \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{rr}\PY{p}{:}
+                         \PY{c+c1}{\PYZsh{}print(line)}
+                         \PY{c+c1}{\PYZsh{}print(self.povide)}
+                         \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DOCSTART}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{line}\PY{p}{:}\PY{c+c1}{\PYZsh{}第一行}
+                             \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tokens}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+                                 \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{o}{.}\PY{n}{pos\PYZus{}tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+                                 \PY{k}{else}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{elif} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{p}{:}\PY{c+c1}{\PYZsh{}空行标志着一个段落的结束,一个段落为一句话,有相似成分,遇到空行将tokens和tags列表加到samples列表}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{c+c1}{\PYZsh{}清空,进行下一次读取}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{else}\PY{p}{:}\PY{c+c1}{\PYZsh{}每一部分的读取}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{pos}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                                 \PY{n}{pos\PYZus{}tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pos}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}\PY{c+c1}{\PYZsh{}只保留第一个tokens标记和最后一个tags标签}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                             \PY{n}{tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tag}\PY{p}{)}
+                             \PY{n}{tokens}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{token}\PY{p}{)}
+         
+                 \PY{k}{return} \PY{n}{samples}
+         \PY{n}{dataset\PYZus{}reader} \PY{o}{=} \PY{n}{NerDatasetReader}\PY{p}{(}\PY{p}{)}\PY{c+c1}{\PYZsh{}实例化}
+         \PY{n}{dataset} \PY{o}{=} \PY{n}{dataset\PYZus{}reader}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{c+c1}{\PYZsh{}找到目录,调用方法}
+         \PY{c+c1}{\PYZsh{}print(dataset[\PYZsq{}train\PYZsq{}])}
+         \PY{k}{for} \PY{n}{sample} \PY{o+ow}{in} \PY{n}{dataset}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{:}\PY{c+c1}{\PYZsh{}抽取了前5个结果查看,格式化输出}
+             \PY{k}{for} \PY{n}{token} \PY{p}{,}\PY{n}{tag} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{sample}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{token}\PY{p}{,}\PY{n}{tag}\PY{p}{)}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<DOCSTART>	0
+
+EU	B-ORG
+rejects	O
+German	B-MISC
+call	O
+to	O
+boycott	O
+British	B-MISC
+lamb	O
+.	O
+
+Peter	B-PER
+Blackburn	I-PER
+
+BRUSSELS	B-LOC
+1996-08-22	O
+
+The	O
+European	B-ORG
+Commission	I-ORG
+said	O
+on	O
+Thursday	O
+it	O
+disagreed	O
+with	O
+German	B-MISC
+advice	O
+to	O
+consumers	O
+to	O
+shun	O
+British	B-MISC
+lamb	O
+until	O
+scientists	O
+determine	O
+whether	O
+mad	O
+cow	O
+disease	O
+can	O
+be	O
+transmitted	O
+to	O
+sheep	O
+.	O
+
+
+    \end{Verbatim}
+
+    \subsubsection{二　字典}\label{ux4e8cux5b57ux5178}
+
+训练神经网络使用两个映射
+
+1.\{token\}-\textgreater{}\{token id\}：token
+id确定现有的标记在词向量矩阵中行的位置\\
+［参考资料：https://spaces.ac.cn/archives/4122 {]} 　　　
+
+2.\{tag\}-\textgreater{}\{tag id\}:tag
+id用于用于产生独热向量概率分布矢量,计算神经网络输出损失度\\
+(稀疏向量(one-hot)，监督学习正确打标记(ground truth))
+
+下面要实现的目标是实现一个类得到标记和标签与对应id的转化
+
+\textbf{实现效果}\\
+\textbf{实现了标记和标号的映射关系\\
+在之前形成的字典的基础上,将字典里的每一个词的tokens标记和tags标签按照出现次数多少从大到小排序并从前往后标号,去除特殊词,分别存在一个\\
+字典和一个列表里,在之后通过判断输入的是字符串(tokens,tags标记)还是数字(标号),对应返回(标号,标记)\\
+根据标号大小可以判断这个词出现的频率}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{k+kn}{from} \PY{n+nn}{pathlib} \PY{k}{import} \PY{n}{Path}
+         \PY{k+kn}{from} \PY{n+nn}{collections} \PY{k}{import} \PY{n}{defaultdict}\PY{p}{,}\PY{n}{Counter}
+         \PY{k+kn}{from} \PY{n+nn}{itertools} \PY{k}{import} \PY{n}{chain}
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k}{class} \PY{n+nc}{NerDatasetReader}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{read}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{data\PYZus{}path}\PY{p}{,}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{n}{provide\PYZus{}pos}
+                 \PY{n}{data\PYZus{}parts} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                 \PY{n}{extension} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.txt}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{dataset} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+                 \PY{k}{for} \PY{n}{data\PYZus{}part} \PY{o+ow}{in} \PY{n}{data\PYZus{}parts}\PY{p}{:}\PY{c+c1}{\PYZsh{}遍历每一个元素}
+                     \PY{n}{file\PYZus{}path} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}path}\PY{p}{)} \PY{o}{/} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}part} \PY{o}{+} \PY{n}{extension}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成文件路径}
+                     \PY{n}{dataset}\PY{p}{[}\PY{n}{data\PYZus{}part}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{read\PYZus{}file}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}字典}
+                 \PY{k}{return} \PY{n}{dataset}
+             \PY{k}{def} \PY{n+nf}{read\PYZus{}file}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{samples} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                 \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{k}{as} \PY{n}{rr}\PY{p}{:}
+                     \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}DOCSTART\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{rr}\PY{p}{:}
+                         \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DOCSTART}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{line}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tokens}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+                                 \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{o}{.}\PY{n}{pos\PYZus{}tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+                                 \PY{k}{else}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{elif} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{else}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{pos}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                                 \PY{n}{pos\PYZus{}tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pos}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                             \PY{n}{tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tag}\PY{p}{)}
+                             \PY{n}{tokens}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{token}\PY{p}{)}
+             
+                 \PY{k}{return} \PY{n}{samples}
+         
+         \PY{k}{class} \PY{n+nc}{Vocab}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{special\PYZus{}tokens} \PY{o}{=} \PY{n+nb}{tuple}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{special\PYZus{}tokens} \PY{o}{=} \PY{n}{special\PYZus{}tokens}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i} \PY{o}{=} \PY{n}{defaultdict}\PY{p}{(}\PY{k}{lambda}\PY{p}{:}\PY{l+m+mi}{0}\PY{p}{)}\PY{c+c1}{\PYZsh{}字典不存在的键键值默认为１,存放标号}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{c+c1}{\PYZsh{}存放标记/标签}
+             
+             \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{tokens}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{count} \PY{o}{=} \PY{l+m+mi}{0}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{freqs} \PY{o}{=} \PY{n}{Counter}\PY{p}{(}\PY{n}{chain}\PY{p}{(}\PY{o}{*}\PY{n}{tokens}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成一个字典，键是词,值是词出现的次数}
+                 \PY{k}{for} \PY{n}{special\PYZus{}token} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{special\PYZus{}tokens}\PY{p}{:}\PY{c+c1}{\PYZsh{}special\PYZus{}token放在最前面}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{special\PYZus{}token}\PY{p}{]} \PY{o}{=} \PY{n}{count}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{special\PYZus{}token}\PY{p}{)}
+                     \PY{n}{count} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                 \PY{k}{for} \PY{n}{token}\PY{p}{,}\PY{n}{freq} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{freqs}\PY{o}{.}\PY{n}{most\PYZus{}common}\PY{p}{(}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}去除出现在specail\PYZus{}tokens里面的元素，根据出现次数从多到少\PYZhy{}\PYZgt{}从前到后标号}
+                     \PY{k}{if} \PY{n}{token} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{:}
+                         \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{token}\PY{p}{]} \PY{o}{=} \PY{n}{count}
+                         \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{token}\PY{p}{)}
+                         \PY{n}{count} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+             
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}call\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{batch}\PY{p}{,}\PY{o}{*}\PY{o}{*}\PY{n}{kwargs}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}通过()方式就可以访问}
+                 \PY{n}{indices\PYZus{}batch} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{sample} \PY{o+ow}{in} \PY{n}{batch}\PY{p}{:}
+                     \PY{n}{indices\PYZus{}batch}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{n+nb+bp}{self}\PY{p}{[}\PY{n}{ch}\PY{p}{]} \PY{k}{for} \PY{n}{ch} \PY{o+ow}{in} \PY{n}{sample}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{}self[ch]调用了\PYZus{}\PYZus{}getitem\PYZus{}\PYZus{}}
+                 \PY{k}{return} \PY{n}{indices\PYZus{}batch}
+             
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}getitem\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{key}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}判断是字符串还是数字,返回对应的列表}
+                 \PY{k}{if} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{p}{(}\PY{n+nb}{int}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{integer}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+                 \PY{k}{elif} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n+nb}{str}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+                 \PY{k}{else}\PY{p}{:}
+                     \PY{k}{raise} \PY{n+ne}{NotImplementedError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{not implemented for type `}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{`}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{key}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+              
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}len\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{return} \PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{p}{)}
+         
+         \PY{n}{dataset\PYZus{}reader} \PY{o}{=} \PY{n}{NerDatasetReader}\PY{p}{(}\PY{p}{)}
+         \PY{n}{dataset} \PY{o}{=} \PY{n}{dataset\PYZus{}reader}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{special\PYZus{}tokens} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}UNK\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{special\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+         
+         \PY{n}{token\PYZus{}vocab} \PY{o}{=} \PY{n}{Vocab}\PY{p}{(}\PY{n}{special\PYZus{}tokens}\PY{p}{)}
+         \PY{n}{tag\PYZus{}vocab} \PY{o}{=} \PY{n}{Vocab}\PY{p}{(}\PY{n}{special\PYZus{}tags}\PY{p}{)}
+         
+         \PY{n}{all\PYZus{}tokens\PYZus{}by\PYZus{}sentenses} \PY{o}{=} \PY{p}{[}\PY{n}{tokens} \PY{k}{for} \PY{n}{tokens}\PY{p}{,} \PY{n}{tags} \PY{o+ow}{in} \PY{n}{dataset}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+         \PY{n}{all\PYZus{}tags\PYZus{}by\PYZus{}sentenses} \PY{o}{=} \PY{p}{[}\PY{n}{tags} \PY{k}{for} \PY{n}{tokens}\PY{p}{,} \PY{n}{tags} \PY{o+ow}{in} \PY{n}{dataset}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+         
+         \PY{n}{token\PYZus{}vocab}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{all\PYZus{}tokens\PYZus{}by\PYZus{}sentenses}\PY{p}{)}
+         \PY{n}{tag\PYZus{}vocab}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{all\PYZus{}tags\PYZus{}by\PYZus{}sentenses}\PY{p}{)}
+         
+         \PY{n}{indices\PYZus{}batch} \PY{o}{=} \PY{n}{token\PYZus{}vocab}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yan}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{is}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{good}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{fellow}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+          \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{}生成每个单词对应的ID}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{indices\PYZus{}batch}\PY{p}{)}
+         
+         \PY{n}{tag\PYZus{}indices\PYZus{}batch} \PY{o}{=} \PY{n}{tag\PYZus{}vocab}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B\PYZhy{}ORG}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{I\PYZhy{}ORG}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{}生成每个标签对应的ID}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{tag\PYZus{}indices\PYZus{}batch}\PY{p}{)}
+         
+         \PY{n}{token\PYZus{}batch} \PY{o}{=} \PY{n}{token\PYZus{}vocab}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{512}\PY{p}{,}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{}10个随机的ID数生成对应ID的token}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{token\PYZus{}batch}\PY{p}{)}
+         
+         
+         \PY{n}{tag\PYZus{}batch} \PY{o}{=} \PY{n}{tag\PYZus{}vocab}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{,}\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{tag\PYZus{}batch}\PY{p}{)}\PY{c+c1}{\PYZsh{}10个随机数生成对应ID的tag}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+10
+[[0, 28, 7, 392, 2715], [1260, 0]]
+[[9, 9, 9], [3, 5]]
+[['1996-08-26', 'expected', 'party', 'United', 'National', 'now', 'Hong', 'before', '7', 'says']]
+[['0', 'B-MISC', 'I-ORG', 'I-PER', '0']]
+
+    \end{Verbatim}
+
+    \subsubsection{三
+数据集迭代器}\label{ux4e09-ux6570ux636eux96c6ux8fedux4ee3ux5668}
+
+神经网络通常批量训练,意味着神经网络的权重更新每次基于若干个序列.需要遍历数据集然后批量的生成x和y\\
+这里的x类似\href{token}{{[}'Yan', 'is', 'a', 'good',
+'fellow{]},{[}'For','instance'{]}}\\
+这里的y类似\href{tag}{{[}'B-PER', 'O', 'O', 'O', 'O'{]},{[}'O',
+'O'{]}}\\
+重要的概念在于批处理生成的随机化,随机化就是从数据集中随机地选取一个样本.从大量连续样本的随机数据训练是必要的,有可能得到高质量的模型\\
+一个批次中所有的序列需要有相同的长度
+
+\textbf{实现效果}\\
+\textbf{能够随机生成一个指定长度的向量,向量的内容为每一组相关联的词组成的列表.因为得到的向量长度可能不同,以最长的向量为准,短的向量不足的部分补0,为之后的CNN神经网络提供数据准备}
+
+    \paragraph{弥补向量缺损长度}\label{ux5f25ux8865ux5411ux91cfux7f3aux635fux957fux5ea6}
+
+通过以上产生的数据发现,数据向量的长度不一致,需要生成一个二进制的01向量,1代表存在字符
+的位置,0代表不存在的位置,通过填充使得所有序列的长度等于批处理序列中最长的向量长度
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k}{def} \PY{n+nf}{iterator}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}
+            \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n}{data}\PY{p}{:}
+                \PY{k}{yield} \PY{n}{d}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{iterator}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{iterator}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<function iterator at 0x7fa01f53c9d8>
+1
+2
+3
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{k+kn}{from} \PY{n+nn}{pathlib} \PY{k}{import} \PY{n}{Path}
+         \PY{k+kn}{from} \PY{n+nn}{collections} \PY{k}{import} \PY{n}{defaultdict}\PY{p}{,}\PY{n}{Counter}
+         \PY{k+kn}{from} \PY{n+nn}{itertools} \PY{k}{import} \PY{n}{chain}
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         \PY{k+kn}{from} \PY{n+nn}{random} \PY{k}{import} \PY{n}{Random}
+         \PY{k}{class} \PY{n+nc}{NerDatasetReader}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{read}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{data\PYZus{}path}\PY{p}{,}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos} \PY{o}{=} \PY{n}{provide\PYZus{}pos}
+                 \PY{n}{data\PYZus{}parts} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                 \PY{n}{extension} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.txt}\PY{l+s+s1}{\PYZsq{}}
+                 \PY{n}{dataset} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+                 \PY{k}{for} \PY{n}{data\PYZus{}part} \PY{o+ow}{in} \PY{n}{data\PYZus{}parts}\PY{p}{:}\PY{c+c1}{\PYZsh{}遍历每一个元素}
+                     \PY{n}{file\PYZus{}path} \PY{o}{=} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}path}\PY{p}{)} \PY{o}{/} \PY{n}{Path}\PY{p}{(}\PY{n}{data\PYZus{}part} \PY{o}{+} \PY{n}{extension}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成文件路径}
+                     \PY{n}{dataset}\PY{p}{[}\PY{n}{data\PYZus{}part}\PY{p}{]} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{read\PYZus{}file}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}字典}
+                 \PY{k}{return} \PY{n}{dataset}
+             \PY{k}{def} \PY{n+nf}{read\PYZus{}file}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{file\PYZus{}path}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{samples} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                 \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{file\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{k}{as} \PY{n}{rr}\PY{p}{:}
+                     \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}DOCSTART\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                     \PY{k}{for} \PY{n}{line} \PY{o+ow}{in} \PY{n}{rr}\PY{p}{:}
+                         \PY{c+c1}{\PYZsh{}print(line)}
+                         \PY{c+c1}{\PYZsh{}print(self.povide)}
+                         \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DOCSTART}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{line}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tokens}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+                                 \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{o}{.}\PY{n}{pos\PYZus{}tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+                                 \PY{k}{else}\PY{p}{:}
+                                     \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{elif} \PY{n+nb}{len}\PY{p}{(}\PY{n}{line}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{samples}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{tokens}\PY{p}{,}\PY{n}{tags}\PY{p}{)}\PY{p}{)}
+                                 \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                                 \PY{n}{tags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                         \PY{k}{else}\PY{p}{:}
+                             \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{provide\PYZus{}pos}\PY{p}{:}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{pos}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                                 \PY{n}{pos\PYZus{}tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pos}\PY{p}{)}
+                             \PY{k}{else}\PY{p}{:}
+                                 \PY{n}{token}\PY{p}{,}\PY{o}{*}\PY{n}{\PYZus{}}\PY{p}{,}\PY{n}{tag} \PY{o}{=} \PY{n}{line}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+                             \PY{n}{tags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tag}\PY{p}{)}
+                             \PY{n}{tokens}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{token}\PY{p}{)}
+                 
+                 \PY{k}{return} \PY{n}{samples}
+         
+         \PY{k}{class} \PY{n+nc}{Vocab}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{special\PYZus{}tokens} \PY{o}{=} \PY{n+nb}{tuple}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{special\PYZus{}tokens} \PY{o}{=} \PY{n}{special\PYZus{}tokens}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i} \PY{o}{=} \PY{n}{defaultdict}\PY{p}{(}\PY{k}{lambda}\PY{p}{:}\PY{l+m+mi}{0}\PY{p}{)}\PY{c+c1}{\PYZsh{}字典不存在的键键值默认为１}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+             
+             \PY{k}{def} \PY{n+nf}{fit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{tokens}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{count} \PY{o}{=} \PY{l+m+mi}{0}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{freqs} \PY{o}{=} \PY{n}{Counter}\PY{p}{(}\PY{n}{chain}\PY{p}{(}\PY{o}{*}\PY{n}{tokens}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}形成一个字典，对应每个词出现的次数}
+                 \PY{c+c1}{\PYZsh{}print(self.freqs.items())}
+                 \PY{k}{for} \PY{n}{special\PYZus{}token} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{special\PYZus{}tokens}\PY{p}{:}\PY{c+c1}{\PYZsh{}special\PYZus{}tokens放在最前面}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{special\PYZus{}token}\PY{p}{]} \PY{o}{=} \PY{n}{count}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{special\PYZus{}token}\PY{p}{)}
+                     \PY{n}{count} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+                 \PY{k}{for} \PY{n}{token}\PY{p}{,}\PY{n}{freq} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{freqs}\PY{o}{.}\PY{n}{most\PYZus{}common}\PY{p}{(}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}去除出现在specail\PYZus{}tokens里面的元素，根据出现次数从前到后标号}
+                     \PY{k}{if} \PY{n}{token} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{:}
+                         \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{token}\PY{p}{]} \PY{o}{=} \PY{n}{count}
+                         \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{token}\PY{p}{)}
+                         \PY{n}{count} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+             
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}call\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{batch}\PY{p}{,}\PY{o}{*}\PY{o}{*}\PY{n}{kwargs}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{indices\PYZus{}batch} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                 \PY{k}{for} \PY{n}{sample} \PY{o+ow}{in} \PY{n}{batch}\PY{p}{:}
+                     \PY{n}{indices\PYZus{}batch}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{n+nb+bp}{self}\PY{p}{[}\PY{n}{ch}\PY{p}{]} \PY{k}{for} \PY{n}{ch} \PY{o+ow}{in} \PY{n}{sample}\PY{p}{]}\PY{p}{)}
+                 \PY{k}{return} \PY{n}{indices\PYZus{}batch}
+             
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}getitem\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{key}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{if} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{p}{(}\PY{n+nb}{int}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{integer}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+                 \PY{k}{elif} \PY{n+nb}{isinstance}\PY{p}{(}\PY{n}{key}\PY{p}{,}\PY{n+nb}{str}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}t2i}\PY{p}{[}\PY{n}{key}\PY{p}{]}
+                 \PY{k}{else}\PY{p}{:}
+                     \PY{k}{raise} \PY{n+ne}{NotImplementedError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{not implemented for type `}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{`}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{key}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+              
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}len\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{return} \PY{n+nb}{len}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{\PYZus{}i2t}\PY{p}{)}
+         \PY{k}{class} \PY{n+nc}{DatasetIterator}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{data}\PY{p}{,}\PY{n}{seed}\PY{p}{:}\PY{n+nb}{int} \PY{o}{=} \PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{data} \PY{o}{=} \PY{p}{\PYZob{}}
+                     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                 \PY{p}{\PYZcb{}}
+                 \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{random} \PY{o}{=} \PY{n}{Random}\PY{p}{(}\PY{n}{seed}\PY{p}{)}
+             \PY{k}{def} \PY{n+nf}{gen\PYZus{}batches}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{batch\PYZus{}size}\PY{p}{,}\PY{n}{data\PYZus{}type} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{shuffle} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}\PY{p}{:}
+                 \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{        batch\PYZus{}size为一次选取的批处理的样本个数,这里的一个样本是一个(tokens,tag)元组}
+         \PY{l+s+sd}{        data\PYZus{}type为样本类型}
+         \PY{l+s+sd}{        shuffle随机化}
+         \PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+                 \PY{n}{data} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{data}\PY{p}{[}\PY{n}{data\PYZus{}type}\PY{p}{]}\PY{c+c1}{\PYZsh{}这里data为数据集里的一组相关联的部分}
+                 \PY{n}{data\PYZus{}len} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{c+c1}{\PYZsh{}列表的长度就是元组的数量}
+                 \PY{k}{if}\PY{p}{(}\PY{n}{data\PYZus{}len} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{return}
+                 
+                 \PY{n}{order} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{data\PYZus{}len}\PY{p}{)}\PY{p}{)}\PY{c+c1}{\PYZsh{}0\PYZhy{}data\PYZus{}len\PYZhy{}1}
+                 
+                 \PY{k}{if} \PY{n}{shuffle}\PY{p}{:}
+                     \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{order}\PY{p}{)}\PY{c+c1}{\PYZsh{}将元组的下标随机化重排}
+                 
+                 \PY{k}{if} \PY{n}{batch\PYZus{}size} \PY{o}{\PYZlt{}} \PY{l+m+mi}{0}\PY{p}{:}
+                     \PY{n}{batch\PYZus{}size} \PY{o}{=} \PY{n}{data\PYZus{}len}
+                 
+                 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{p}{(}\PY{n}{data\PYZus{}len} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{/}\PY{o}{/} \PY{n}{batch\PYZus{}size} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}按照batch\PYZus{}size分块选取批向量}
+                     \PY{c+c1}{\PYZsh{}迭代器将第i个且数量为batch\PYZus{}size个的元组里的tokens,tags分别对应打包在一起}
+                     \PY{k}{yield} \PY{n+nb}{tuple}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{p}{[}\PY{n}{data}\PY{p}{[}\PY{n}{o}\PY{p}{]} \PY{k}{for} \PY{n}{o} \PY{o+ow}{in} \PY{n}{order}\PY{p}{[}\PY{n}{i} \PY{o}{*} \PY{n}{batch\PYZus{}size}\PY{p}{:}\PY{p}{(}\PY{n}{i} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{*} \PY{n}{batch\PYZus{}size}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{k}{class} \PY{n+nc}{Mask}\PY{p}{:}
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{o}{*}\PY{n}{args}\PY{p}{,}\PY{o}{*}\PY{o}{*}\PY{n}{kwargs}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{pass}
+             \PY{k}{def} \PY{n+nf}{\PYZus{}\PYZus{}call\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,}\PY{n}{tokens\PYZus{}batch}\PY{p}{,}\PY{o}{*}\PY{o}{*}\PY{n}{kwargs}\PY{p}{)}\PY{p}{:}
+                 \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+         \PY{l+s+sd}{        接收批量的tokens,返回对应长度的mask列表}
+         \PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+                 \PY{n}{batch\PYZus{}size} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tokens\PYZus{}batch}\PY{p}{)}
+                 \PY{n}{max\PYZus{}len} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{utt}\PY{p}{)} \PY{k}{for} \PY{n}{utt} \PY{o+ow}{in} \PY{n}{tokens\PYZus{}batch}\PY{p}{)}
+                 \PY{n}{mask} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{[}\PY{n}{batch\PYZus{}size}\PY{p}{,}\PY{n}{max\PYZus{}len}\PY{p}{]}\PY{p}{,}\PY{n}{dtype} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{float32}\PY{p}{)}\PY{c+c1}{\PYZsh{}返回一个用0填充的数组}
+                 \PY{c+c1}{\PYZsh{}np.zeros参考资料https://blog.csdn.net/qq\PYZus{}26948675/article/details/54318917}
+                 \PY{k}{for} \PY{n}{n}\PY{p}{,}\PY{n}{utterance} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{tokens\PYZus{}batch}\PY{p}{)}\PY{p}{:}\PY{c+c1}{\PYZsh{}返回一个二维数组,第一维代表是第几个列表,第二维表示列表的具体内容}
+                     \PY{c+c1}{\PYZsh{}print(n,utterance)}
+                     \PY{n}{mask}\PY{p}{[}\PY{n}{n}\PY{p}{,}\PY{p}{:}\PY{n+nb}{len}\PY{p}{(}\PY{n}{utterance}\PY{p}{)}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+                 \PY{k}{return} \PY{n}{mask}
+             
+         \PY{n}{dataset\PYZus{}reader} \PY{o}{=} \PY{n}{NerDatasetReader}\PY{p}{(}\PY{p}{)}
+         \PY{n}{dataset} \PY{o}{=} \PY{n}{dataset\PYZus{}reader}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data/}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{dataset\PYZus{}iterator} \PY{o}{=} \PY{n}{DatasetIterator}\PY{p}{(}\PY{n}{dataset}\PY{p}{)}
+         \PY{n+nb}{next}\PY{p}{(}\PY{n}{dataset\PYZus{}iterator}\PY{o}{.}\PY{n}{gen\PYZus{}batches}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{next}\PY{p}{(}\PY{n}{dataset\PYZus{}iterator}\PY{o}{.}\PY{n}{gen\PYZus{}batches}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{get\PYZus{}mask} \PY{o}{=} \PY{n}{Mask}\PY{p}{(}\PY{p}{)}
+         \PY{n}{get\PYZus{}mask}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Try}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{to}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{get}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{the}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mask}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Check}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{paddings}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+((['"', 'We', 'are', 'united', 'and', 'we', 'are', 'waiting', 'for', 'the', 'government', 'to', 'decide', 'what', 'to', 'do', 'with', 'us', '.', '"'], ['Manchester', 'City', '3', '1', '0', '2', '2', '3', '3']), (['O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O'], ['B-ORG', 'I-ORG', 'O', 'O', 'O', 'O', 'O', 'O', 'O']))
+
+    \end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}48}]:} array([[1., 1., 1., 1., 1.],
+                [1., 1., 0., 0., 0.]], dtype=float32)
+\end{Verbatim}
+            
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
