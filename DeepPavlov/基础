@@ -1,0 +1,16 @@
+anaconda3环境
+source activate env
+git clone https://github.com/deepmipt/DeepPavlov.git
+python setup.py develop
+python -m spacy download en
+python
+from deeppavlov.core.agent import Agent, HighestConfidenceSelector
+from deeppavlov.skills.pattern_matching_skill import PatternMatchingSkill
+hello = PatternMatchingSkill(['Hello world!'],patterns = ["hi","hello","good day"])
+bye = PatternMatchingSkill(['Goodbye world!','See you around'],patterns = ["bye","chao","see you"])
+fallback = PatternMatchingSkill(["I don't understand,sorry",'I can say "Hello world!"'])
+HelloBot = Agent([hello,bye,fallback],skills_selector=HighestConfidenceSelector())
+HelloBot(['Hello','Bye','Or not'])
+['Hello world!', 'Goodbye world!', 'I can say "Hello world!"']
+备注：这里输入含有hello-patterns里面的内容（必须是完整的，其他也是，否则会被误认为是其他的内容），会输出Hello world!，输入bye-patterns里面的内容会输出Goodbye world!。。。
+输入其他的内容会输出I don't understand,sorry。。。
