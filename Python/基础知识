@@ -1,0 +1,168 @@
+第一课
+>>> print("I love fishc.com")
+I love fishc.com
+>>> print(5+3)
+8
+>>> print(1235454726732*92832784263)
+114690702113415375018516
+>>> print("well water" + "river")
+well waterriver
+>>> 
+KeyboardInterrupt
+>>> print("well water" + " river")
+well water river
+>>> print("I love fish.com" * 8)
+I love fish.comI love fish.comI love fish.comI love fish.comI love fish.comI love fish.comI love fish.comI love fish.com
+>>> print("I love fishc.com\n" * 8)
+I love fishc.com
+I love fishc.com
+I love fishc.com
+I love fishc.com
+I love fishc.com
+I love fishc.com
+I love fishc.com
+I love fishc.com
+ALT+P下一句
+ALT+N上一句
+
+
+第二课
+Ctrl+N 建立一个文档
+文本小游戏
+print('........小甲鱼游戏工作室........')
+temp = input("不妨猜一下小甲鱼现在心里想的哪个数字")
+guess = int(temp)
+if guess == 8:
+    print("你是小甲鱼心里的蛔虫吗？")#有缩进
+    print("哼，猜中了也没奖励")
+else:
+    print("猜错啦，小甲鱼现在心里想的是8!")
+print("游戏结束，不玩啦")
+
+python内置函数
+Built-in function
+>>> dir(__builtins__)
+>>>help(input)
+
+变量和赋值
+>>> teacher = '小甲鱼'
+>>> print(teacher)
+小甲鱼
+>>> teacher = '老甲鱼'
+>>> print(teacher)
+老甲鱼
+>>> first = 3
+>>> second = 8
+>>> third = first + second
+>>> print(third)
+11
+>>> myteacher = "小甲鱼"
+>>> yourteacher = "黑夜"
+>>> ourteacher = myteacher + yourteacher
+>>> print(ourteacher)
+小甲鱼黑夜
+字符串可以是单引号组队也可以是双引号组对
+
+
+第三课
+>>> teacher = '小甲鱼'
+>>> print(teacher)
+小甲鱼
+>>> teacher = '老甲鱼'
+>>> print(teacher)
+老甲鱼
+>>> first = 3
+>>> second = 8
+>>> third = first + second
+>>> print(third)
+11
+>>> myteacher = "小甲鱼"
+>>> yourteacher = "黑夜"
+>>> ourteacher = myteacher + yourteacher
+>>> print(ourteacher)
+小甲鱼黑夜
+>>> 'Let's go !'
+SyntaxError: invalid syntax
+>>> 'Let\'s go !'#转义字符
+"Let's go !"
+>>> str = 'C:\now'
+>>> str
+'C:\now'
+>>> print(str)#翻译成换行了
+C:
+ow
+>>> str = r'C:\now'#使用原始字符串
+>>> str
+'C:\\now'
+>>> print(str)
+C:\now
+
+>>> str = """#字符串
+哈哈哈
+哈哈哈
+哈哈哈
+"""
+>>> str
+'\n哈哈哈\n哈哈哈\n哈哈哈\n'
+>>> print(str)#输出
+
+哈哈哈
+哈哈哈
+哈哈哈
+
+>>> 'I love fishc'#不能使用中文字符
+'I love fishc'
+
+第四课
+import random
+secret = random.randint(1,10);
+print('........小甲鱼游戏工作室........')
+temp = input("不妨猜一下小甲鱼现在心里想的哪个数字\n")
+guess = int(temp)
+cnt = 0
+while guess != secret and cnt < 2:
+    temp = input("猜错了，请重新输入吧")
+    guess = int(temp)
+    if guess == secret:
+        print("你是小甲鱼心里的蛔虫吗？")#有缩进
+        print("哼，猜中了也没奖励")
+    else:
+        if(guess > secret):
+            print("哥，大了大了")
+        else:
+            print("嘿，小了小了")
+    cnt += 1
+print("游戏结束，不玩啦^-^")
+
+第五课
+True 
+False
+>>> a = "520"
+>>> b = int(a)
+>>> b
+520
+>>> a = 5.99
+>>> c =int(a)
+>>> c
+5
+直接砍掉后面的小数
+>>> a = '520'
+>>> b = float(a)
+>>> b
+520.0
+>>> a = 5.99
+>>> b = str(a)
+>>> b
+'5.99'
+>>> c = str(5e9)
+>>> c
+'5000000000.0'
+>>> type('520')
+<type 'str'>
+>>> isinstance(120.35,float)
+True
+>>> isinstance(a,int)
+False
+>>> a = '120'
+>>> isinstance(a,str)
+True
